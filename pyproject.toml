@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "puter"
+version = "0.1.0"
+description = "Run one-shot docker images in AWS, cleanup the resources, and dump artifacts into S3."
+authors = ["Daniel Spofford <dannyspofford@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/danielspofford/puter"
+homepage = "https://github.com/danielspofford/puter"
+keywords = ["aws", "docker", "container", "image", "one-shot", "one", "shot", "s3", "off", "single"]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+boto3 = "^1.10"
+click = "^7.0"
+isort = "^4.3"
+
+[tool.poetry.dev-dependencies]
+black = {version = "^19.10b0", allow-prereleases = true}
+pytest = "^5.3"
+pytest-watch = "^4.2"
+pytest-mock = "^1.12"
+isort = "^4.3"
+
+[tool.poetry.scripts]
+wintergreen = "puter.cli:cli"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
