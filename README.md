@@ -1,41 +1,30 @@
 # Puter
 
-A fast and simple means of running EC2 instances for one-off work loads.
+A fast and simple means of running connectable EC2 instances for one-off work loads.
 
 ## Features
 
-- Instances will self-terminate (can be disabled).
-- Namespaces / idempotent resource creation. Facilitates multi-user AWS accounts and prevents the
-  "same" resources from being created multiple times.
+- Instances will self-terminate in 60 minutes (can be disabled).
+- Easy connection.
 - Tagged AWS resources and local logs ensure you don't need to worry about losing a needle in a
   haystack.
-- Convenient SSH and Rsync command suggestion.
-- Resolves latest AWS Linux 2 AMI for whatever region is specified.
-- Docker pre-installed on instances.
+- Configurable alongside smart defaults.
 
 ## Installation
 
-TODO: installation with pip instead
-
-- `git clone git@github.com:danielspofford/puter.git`
+```shell
+git clone git@github.com:danielspofford/puter.git
+```
 
 ## Usage
 
-TODO: NOTE: this is what usage will look like post-pip which is not possible yet
-
-Now:
-
-- `python puter/puter.py --profile=aws-profile --tag my-tag`
-
-Soon:
+Puter will ensure an EC2 instance exists and print its connection info.
 
 ```shell
-puter \
-  --profile=aws-profile \
-  --tag bettys-puter
+python puter/puter.py --help
 ```
 
-## How It Works
+## Internals
 
 Puter uses these boto3 functions:
 
@@ -50,26 +39,21 @@ Puter uses these boto3 functions:
 
 On run, Puter:
 
-- Ensures a keypair exists, by default this is `puter-v1`, but the user may
-  provide their own.
-- Ensures a `puter-v1` security group exists.
-- Ensures an instance tagged with the value of the user provided `--tag` exists.
+- Ensures a keypair exists.
+- Ensures a security group exists.
+- Ensures an EC2 instance exists with the tag key `puter` and value equal to the `--tag` option.
 
-Puter never deletes anything itself. It achieves self-terminating EC2 instances
-by indicating upon creation that they should terminate on shutdown. Puter's
-default EC2 user data script schedules the system to shutdown 60 minutes from
-execution.
+Puter never deletes anything itself. It achieves self-terminating EC2 instances by indicating upon
+creation that they should terminate on shutdown. Puter's default EC2 user data script schedules
+the system to shutdown 60 minutes from execution.
 
-The scheduled job can be viewed via `at -l`. Self-termination can be canceled
-at the time of running the command via `--no-shutdown` and from within the
-instance itself via `atrm JOBNUMBER`
-where the job number is found via `at -l`.
+The scheduled job can be viewed via `sudo at -l`. Self-termination can be canceled with
+`sudo atrm JOBNUMBER`. The job number is found via `sudo at -l`.
 
 ### EC2 User Data Script
 
-Automatic self-termination and Docker pre-install both rely on the EC2 user data script being
-executed. This happens automatically on boot of any Cloud-init-enabled AMI (including Puter's
-default AMIs).
+Automatic self-termination relies on the EC2 user data script being executed. This happens
+automatically on boot of any Cloud-init-enabled AMI.
 
 ## Development
 
