@@ -4,7 +4,7 @@ from datetime import datetime
 
 import click
 
-import puter
+from . import puter
 
 
 def text(data):
@@ -38,7 +38,7 @@ def commit(data, stack):
         "meta": {"stack": f"{stack}", "datetime": timestamp},
     }
     log_path = puter.data_dir() / "log.txt"
-    log_path.touch(mode=0o600)
+    # log_path.touch(mode=0o600)
     with open(log_path, "a") as file:
         log_json = json.dumps(log_dict)
         file.write(f"{log_json}\n")

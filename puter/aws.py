@@ -4,7 +4,7 @@ import time
 import dateutil.parser
 from botocore.exceptions import ClientError
 
-import log
+from . import log
 
 
 def authorize_security_group_ingress(group_id, ec2):

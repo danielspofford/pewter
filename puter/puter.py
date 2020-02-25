@@ -10,8 +10,7 @@ import boto3
 import click
 import dateutil.parser
 
-import aws
-import log
+from . import aws, log
 
 
 @click.command(context_settings=dict(max_content_width=120))
