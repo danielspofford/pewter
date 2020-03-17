@@ -24,7 +24,7 @@ pytest-mock = "^1.12"
 isort = "^4.3"
 
 [tool.poetry.scripts]
-wintergreen = "puter.cli:cli"
+puter = "puter.puter:cli"
 
 [build-system]
 requires = ["poetry>=0.12"]
